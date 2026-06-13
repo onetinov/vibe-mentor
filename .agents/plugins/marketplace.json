@@ -1,0 +1,20 @@
+{
+  "name": "vibe-mentor",
+  "interface": {
+    "displayName": "Vibe Mentor"
+  },
+  "plugins": [
+    {
+      "name": "architecture-mentor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/architecture-mentor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

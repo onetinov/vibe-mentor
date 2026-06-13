@@ -1,0 +1,4 @@
+.venv/
+.tmp-anthropic-skills/
+__pycache__/
+.DS_Store

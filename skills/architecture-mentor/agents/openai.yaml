@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Mentor"
+  short_description: "Pragmatic architecture review and trade-off guidance"
+  default_prompt: "Use $architecture-mentor to review this design, preserve the product idea, and propose the simplest production-worthy shape."

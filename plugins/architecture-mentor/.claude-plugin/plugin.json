@@ -1,0 +1,15 @@
+{
+  "name": "architecture-mentor",
+  "version": "0.1.0",
+  "description": "Pragmatic architecture review and mentoring workflow for Claude Code.",
+  "author": {
+    "name": "Rob Cherry"
+  },
+  "homepage": "https://github.com/onetinov/vibe-mentor",
+  "repository": "https://github.com/onetinov/vibe-mentor.git",
+  "license": "MIT",
+  "skills": "./skills/",
+  "metadata": {
+    "category": "development"
+  }
+}
