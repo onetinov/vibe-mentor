@@ -29,6 +29,14 @@ The skill is aimed at:
 - Claude Code
 - OpenAI Codex
 
+## Planning Docs
+
+For ongoing multi-session design work, start with:
+
+- `docs/intent/vibe-mentor-intent.md`
+- `docs/intent/skill-family-map.md`
+- `docs/intent/session-sequence-guide.md`
+
 ## Repo Layout
 
 ```text
