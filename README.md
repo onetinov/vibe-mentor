@@ -151,16 +151,13 @@ claude plugin install sales@knowledge-work-plugins
 
 ### Marketplace install
 
-The public Anthropic examples confirm the command shape, but they do not fully
-document GitHub Enterprise URL variants. Start with the repo identifier if your
- Claude build accepts it, otherwise test the HTTPS URL form in your environment.
+Tested against the public `onetinov/vibe-mentor` repo:
 
 ```text
 claude plugin marketplace add onetinov/vibe-mentor
 ```
 
-If your Claude Code build accepts HTTPS Git URLs for plugin marketplaces, the
-intended equivalent is:
+HTTPS Git URL form also worked in our smoke test:
 
 ```text
 claude plugin marketplace add https://github.com/onetinov/vibe-mentor.git
@@ -170,6 +167,15 @@ Then install the plugin:
 
 ```text
 claude plugin install architecture-mentor@vibe-mentor
+```
+
+For an isolated smoke test that does not touch your normal Claude setup, use a
+temporary home and local install scope:
+
+```bash
+TMP_HOME="$(mktemp -d)"
+HOME="$TMP_HOME" claude plugin marketplace add https://github.com/onetinov/vibe-mentor.git
+HOME="$TMP_HOME" claude plugin install architecture-mentor@vibe-mentor --scope local
 ```
 
 ### Project-scoped use
@@ -212,22 +218,33 @@ Codex documents:
 
 ### Marketplace install from HTTPS Git URL
 
-This is the clearest documented install path for a remote public repo:
+Tested against the public `onetinov/vibe-mentor` repo:
 
 ```bash
-codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git --sparse .agents/plugins
+codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git --sparse .agents/plugins --sparse plugins
 ```
 
 After that, browse or install the plugin from the Codex plugin directory.
 
-Depending on your Codex build, a direct install command may also exist:
+Direct install also worked in our smoke test:
 
 ```bash
 codex plugin add architecture-mentor@vibe-mentor
 ```
 
-Treat that direct install command as version-sensitive unless your build
-documents it.
+The extra `--sparse plugins` matters. Without it, Codex fetches the marketplace
+manifest but not the plugin package.
+
+For an isolated smoke test that does not touch your normal Codex setup, use a
+temporary `CODEX_HOME`:
+
+```bash
+TMP_CODEX_HOME="$(mktemp -d)"
+CODEX_HOME="$TMP_CODEX_HOME" codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git --sparse .agents/plugins --sparse plugins
+CODEX_HOME="$TMP_CODEX_HOME" codex plugin add architecture-mentor@vibe-mentor
+```
+
+Public marketplace add did not require `gh auth` in our smoke tests.
 
 ### Project-scoped use
 
@@ -237,6 +254,17 @@ Confirmed project-scoped support exists in two forms:
    `./.agents/skills/architecture-mentor/`
 2. Repo marketplace:
    `./.agents/plugins/marketplace.json` plus `./plugins/architecture-mentor/`
+
+## Smoke Tests
+
+Run the reusable cross-client smoke test script from the repo root:
+
+```bash
+scripts/smoke_test_marketplaces.sh
+```
+
+It uses temporary Claude and Codex homes under `/private/tmp` so it does not
+modify your normal local plugin state.
 
 If you vendor this repo or copy these directories into your target repo, Codex
 can load the skill as project-local guidance.
