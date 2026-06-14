@@ -8,8 +8,5 @@
   "homepage": "https://github.com/onetinov/vibe-mentor",
   "repository": "https://github.com/onetinov/vibe-mentor.git",
   "license": "MIT",
-  "skills": "./skills/",
-  "metadata": {
-    "category": "development"
-  }
+  "skills": "./skills/"
 }

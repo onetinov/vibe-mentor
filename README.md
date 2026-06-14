@@ -167,9 +167,7 @@ scripts/
 
 ### Confirmed today
 
-- Claude Code supports project and user skills from `.claude/skills/` and
-  `~/.claude/skills/`.
-- Anthropic's public plugin repos document plugin marketplace install commands:
+Anthropic's public plugin repos document plugin marketplace install commands:
 
 ```text
 claude plugin marketplace add anthropics/knowledge-work-plugins
@@ -215,13 +213,8 @@ HOME="$TMP_HOME" claude plugin install architecture-mentor@vibe-mentor --scope l
 
 ### Confirmed today
 
-Codex documents:
-
-- repo-scoped skills in `.agents/skills`
-- personal skills in `$HOME/.agents/skills`
-- repo-scoped plugin marketplaces in `$REPO_ROOT/.agents/plugins/marketplace.json`
-- personal marketplaces in `~/.agents/plugins/marketplace.json`
-- CLI marketplace commands via `codex plugin marketplace ...`
+Codex documents CLI marketplace commands via `codex plugin marketplace ...`
+and `codex plugin add ...`.
 
 ### Marketplace install
 
@@ -295,18 +288,6 @@ Expected behavior:
 - If a marketplace does not appear in Codex, restart Codex after adding it.
 - If a marketplace add fails against GitHub shorthand, retry with the HTTPS Git
   URL form.
-- Sparse checkout is a fallback for old or broken client behavior, not the
-  recommended path.
-
-## Advanced Fallbacks
-
-Project-scoped raw skills are still kept in the repo for development and
-fallback use:
-
-- Claude: `./.claude/skills/architecture-mentor/`
-- Codex: `./.agents/skills/architecture-mentor/`
-
-These are not the recommended install path for normal users.
 
 ## Version Caveats
 
