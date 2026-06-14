@@ -20,6 +20,7 @@ Read these first:
 - `README.md`
 - `TODO.md`
 - `docs/intent/vibe-mentor-intent.md`
+- `docs/intent/go-forward-guidance.md`
 - `docs/intent/skill-family-map.md`
 - `docs/intent/session-sequence-guide.md`
 
@@ -75,12 +76,15 @@ Likely outputs:
 
 - project-shape classifier content
 - trigger and routing heuristics
+- `docs/intent/project-pattern-taxonomy.md`
 
 ### Session 3: Prototype-to-Production Review
 
 Goal:
 
-- define the hardening / review skill
+- define the hardening / review skill more clearly
+- tighten how the umbrella skill handles production-readiness advice during and
+  after the build
 
 Topics:
 
@@ -93,8 +97,9 @@ Topics:
 
 Likely outputs:
 
-- `prototype-to-production-review` intent doc
-- maybe first skill scaffold
+- `docs/intent/prototype-to-production-review.md`
+- shipped `architecture-mentor` hardening guidance
+- maybe first specialist skill scaffold later
 
 ### Session 4: Auth And Credential Patterns
 

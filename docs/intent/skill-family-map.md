@@ -27,6 +27,7 @@ Responsibilities:
 - classify maturity and risk
 - identify the likely advice mode
 - give first-pass recommendations
+- do first-pass production-readiness triage
 - pull in specialist depth when needed
 
 ## Specialist Skills
@@ -47,6 +48,15 @@ Responsibilities:
 - state ownership
 - config and environment discipline
 - operational hardening
+- operational ownership
+- sequencing hardening work across multiple gaps
+
+Boundary from `architecture-mentor`:
+
+- `architecture-mentor` should catch the biggest production-readiness problem
+  and recommend the next strengthening move
+- `prototype-to-production-review` should go deeper when the user wants a real
+  hardening audit, sequencing, or multi-area operational diagnosis
 
 ### `auth-and-credentials-mentor`
 
@@ -82,6 +92,8 @@ Responsibilities:
 - deterministic vs heuristic boundaries
 - pause / resume / retry semantics
 - human-in-the-loop design
+- durable workflow shell plus narrow specialist-agent pattern
+- skill/schema/tool boundaries with minimal custom control code
 
 ### `platform-shape-advisor`
 
@@ -133,6 +145,8 @@ Responsibilities:
 These should probably be shared across multiple skills:
 
 - project taxonomy
+- production-readiness lens:
+  `laptopware / deployability / observability / config / recovery / ownership`
 - review framing:
   `Intent / Keep / Refactor / Remove / Recommendation / Trade-offs`
 - mentoring tone

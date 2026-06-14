@@ -24,6 +24,54 @@ The skill is aimed at:
 - clarifying-question discipline
 - pragmatic recommendations instead of generic best-practice sludge
 
+## Why This Exists
+
+AI coding tools can produce code that looks clever, compiles, and even demos
+well while still having weak architecture.
+
+That usually shows up as:
+
+- business logic in the wrong place
+- hidden or duplicated state ownership
+- frontend-owned orchestration that should live elsewhere
+- secrets and trust boundaries handled unsafely
+- retry, async, and recovery behavior buried in ad hoc code
+- systems that work on one laptop but degrade badly in production
+
+The problem is not usually that the model cannot write code. The problem is that
+without architecture guidance it will often produce structures that are harder to
+operate, harder to maintain, and easier to break under real usage.
+
+`vibe-mentor` is meant to intervene there. It is not a teaching course. It is a
+practical advisory layer that helps a builder:
+
+- choose a sane default shape early
+- catch structural drift mid-build
+- review an existing system without demanding a rewrite
+- improve production readiness by fixing the right boundaries
+
+The intended outcome is not "perfect architecture." It is a stronger next move:
+better placement of logic, state, secrets, async work, and operational
+responsibility.
+
+## How The Skill Should Feel
+
+The skill should act like an intervention tool, not a lecture.
+
+It should usually give:
+
+- one recommendation
+- one reason
+- one risk if ignored
+- one next move
+
+It should optimize for:
+
+- stage-aware advice: before build, during build, after build
+- strong defaults over option overload
+- boundary placement over abstract theory
+- momentum-preserving correction instead of architecture purity
+
 ## Supported Clients
 
 - Claude Code

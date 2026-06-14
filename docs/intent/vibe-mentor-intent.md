@@ -72,6 +72,8 @@ It should be the front door skill that helps a user say things like:
 - architecture review and trade-off analysis
 - prototype-to-production hardening
 - agentic system design as a modifier or specialist area
+- durable-shell agentic patterns: less orchestration code, more skill-grounded
+  agents inside deterministic workflow/backends
 - auth and credential patterns as a cross-cutting area
 - platform selection and operational maturity
 

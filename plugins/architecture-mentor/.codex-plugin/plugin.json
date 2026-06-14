@@ -1,7 +1,7 @@
 {
   "name": "architecture-mentor",
   "version": "0.1.0",
-  "description": "Pragmatic architecture review and mentoring workflow for Codex.",
+  "description": "Pragmatic architecture review and production-readiness mentoring workflow for Codex.",
   "author": {
     "name": "Rob Cherry"
   },
@@ -13,7 +13,7 @@
   "interface": {
     "displayName": "Architecture Mentor",
     "shortDescription": "Review systems with pragmatic architecture judgment.",
-    "longDescription": "Preserve product intent while improving boundaries, platform shape, and operational sanity.",
+    "longDescription": "Preserve product intent while improving boundaries, git and repo discipline, deployment shape, and operational sanity.",
     "developerName": "Rob Cherry",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
@@ -21,7 +21,9 @@
     "defaultPrompt": [
       "Review this system design with Architecture Mentor.",
       "Do this the way Rob would: preserve the idea, fix the architecture.",
-      "Help me choose the simplest production-worthy platform shape."
+      "Help me choose the simplest production-worthy platform shape.",
+      "I have a working prototype. Is this still laptopware?",
+      "This repo feels messy. Is the git scope wrong, and what should stay vs go?"
     ]
   }
 }

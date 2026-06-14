@@ -1,7 +1,7 @@
 {
   "name": "architecture-mentor",
   "version": "0.1.0",
-  "description": "Pragmatic architecture review and mentoring workflow for Claude Code.",
+  "description": "Pragmatic architecture review and production-readiness mentoring workflow for Claude Code.",
   "author": {
     "name": "Rob Cherry"
   },
