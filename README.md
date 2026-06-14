@@ -77,6 +77,42 @@ It should optimize for:
 - Claude Code
 - OpenAI Codex
 
+## Easy Install
+
+### Codex
+
+```bash
+codex plugin marketplace add onetinov/vibe-mentor
+codex plugin add architecture-mentor@vibe-mentor
+```
+
+### Claude Code
+
+```bash
+claude plugin marketplace add onetinov/vibe-mentor
+claude plugin install architecture-mentor@vibe-mentor
+```
+
+These are the recommended install paths. No sparse checkout, skill installer,
+or manual skill copying should be needed on current clients.
+
+## Upgrade
+
+### Codex
+
+```bash
+codex plugin marketplace upgrade vibe-mentor
+```
+
+### Claude Code
+
+```bash
+claude plugin marketplace update vibe-mentor
+```
+
+If a client does not pick up a new plugin version immediately, restart or
+reload the client. Reinstalling the plugin may also be needed on stale caches.
+
 ## Planning Docs
 
 For ongoing multi-session design work, start with:
@@ -127,15 +163,6 @@ scripts/
   pre-commit
 ```
 
-## Install From Git
-
-Replace these placeholders with the real published repository path:
-
-- GitHub Enterprise HTTPS URL:
-  `https://github.com/onetinov/vibe-mentor.git`
-- GitHub shorthand where supported:
-  `onetinov/vibe-mentor`
-
 ## Claude Code
 
 ### Confirmed today
@@ -178,31 +205,11 @@ HOME="$TMP_HOME" claude plugin marketplace add https://github.com/onetinov/vibe-
 HOME="$TMP_HOME" claude plugin install architecture-mentor@vibe-mentor --scope local
 ```
 
-### Project-scoped use
-
-Confirmed project-scoped support exists for raw skills checked into the repo:
-
-- `./.claude/skills/architecture-mentor/`
-
-This is useful when you want the skill available only inside one repository.
-Today, a one-command remote project-scoped plugin install path is not yet
-verified in the official Claude docs we checked.
-
-### User/global use
-
-Confirmed user-scoped support exists for:
-
-- `~/.claude/skills/`
-
-Marketplace-installed plugins appear to behave like user-level installs, but
-Anthropic's docs are less explicit than Codex's on exact install scope.
-
 ### Enable, disable, uninstall
 
 - Use `claude plugin install ...` to add the plugin
 - Use Claude Code's plugin management UI or current `claude plugin` commands to
   disable or remove it
-- For repo-scoped raw skills, remove or rename `./.claude/skills/architecture-mentor/`
 
 ## Codex
 
@@ -216,44 +223,36 @@ Codex documents:
 - personal marketplaces in `~/.agents/plugins/marketplace.json`
 - CLI marketplace commands via `codex plugin marketplace ...`
 
-### Marketplace install from HTTPS Git URL
+### Marketplace install
 
 Tested against the public `onetinov/vibe-mentor` repo:
 
 ```bash
-codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git --sparse .agents/plugins --sparse plugins
+codex plugin marketplace add onetinov/vibe-mentor
 ```
 
-After that, browse or install the plugin from the Codex plugin directory.
-
-Direct install also worked in our smoke test:
+Then install the plugin:
 
 ```bash
 codex plugin add architecture-mentor@vibe-mentor
 ```
 
-The extra `--sparse plugins` matters. Without it, Codex fetches the marketplace
-manifest but not the plugin package.
+HTTPS Git URL form should also work on current clients:
+
+```bash
+codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git
+```
 
 For an isolated smoke test that does not touch your normal Codex setup, use a
 temporary `CODEX_HOME`:
 
 ```bash
 TMP_CODEX_HOME="$(mktemp -d)"
-CODEX_HOME="$TMP_CODEX_HOME" codex plugin marketplace add https://github.com/onetinov/vibe-mentor.git --sparse .agents/plugins --sparse plugins
+CODEX_HOME="$TMP_CODEX_HOME" codex plugin marketplace add onetinov/vibe-mentor
 CODEX_HOME="$TMP_CODEX_HOME" codex plugin add architecture-mentor@vibe-mentor
 ```
 
 Public marketplace add did not require `gh auth` in our smoke tests.
-
-### Project-scoped use
-
-Confirmed project-scoped support exists in two forms:
-
-1. Raw repo skill:
-   `./.agents/skills/architecture-mentor/`
-2. Repo marketplace:
-   `./.agents/plugins/marketplace.json` plus `./plugins/architecture-mentor/`
 
 ## Smoke Tests
 
@@ -266,25 +265,12 @@ scripts/smoke_test_marketplaces.sh
 It uses temporary Claude and Codex homes under `/private/tmp` so it does not
 modify your normal local plugin state.
 
-If you vendor this repo or copy these directories into your target repo, Codex
-can load the skill as project-local guidance.
-
-### User/global use
-
-Confirmed user-scoped support exists for:
-
-- `$HOME/.agents/skills`
-- `~/.agents/plugins/marketplace.json`
-
 ### Enable, disable, uninstall
 
 ```bash
 codex plugin marketplace list
 codex plugin marketplace remove vibe-mentor
 ```
-
-If your build exposes direct plugin install management, use that as well. For
-repo-scoped raw skills, remove or rename `./.agents/skills/architecture-mentor/`.
 
 ## How To Invoke The Skill
 
@@ -304,17 +290,23 @@ Expected behavior:
 
 ## Troubleshooting
 
+- If simple marketplace add fails, check the client version first.
 - If the skill does not trigger, use its name explicitly: `architecture-mentor`.
-- If Claude ignores a project skill, verify the files exist under
-  `./.claude/skills/*/SKILL.md` and use `/memory` or Claude's config inspection
-  tools to confirm loading.
-- If Codex ignores a repo skill, verify the files exist under
-  `./.agents/skills/*/SKILL.md`.
 - If a marketplace does not appear in Codex, restart Codex after adding it.
-- If a Git-backed marketplace fails in Codex, retry with the HTTPS Git URL and
-  `--sparse .agents/plugins`.
-- If a Claude plugin install command fails against GitHub Enterprise, fall back
-  to project-scoped `.claude/skills/` until the URL form is confirmed.
+- If a marketplace add fails against GitHub shorthand, retry with the HTTPS Git
+  URL form.
+- Sparse checkout is a fallback for old or broken client behavior, not the
+  recommended path.
+
+## Advanced Fallbacks
+
+Project-scoped raw skills are still kept in the repo for development and
+fallback use:
+
+- Claude: `./.claude/skills/architecture-mentor/`
+- Codex: `./.agents/skills/architecture-mentor/`
+
+These are not the recommended install path for normal users.
 
 ## Version Caveats
 
@@ -336,7 +328,9 @@ the version is synchronized across:
 - every `plugins/*/.claude-plugin/plugin.json`
 - every `plugins/*/.codex-plugin/plugin.json`
 
-Install the repo hooks once:
+Validation runs in the repo pre-commit hook and in CI.
+
+Install the repo hooks once if you want local enforcement:
 
 ```bash
 ./scripts/install_git_hooks.sh

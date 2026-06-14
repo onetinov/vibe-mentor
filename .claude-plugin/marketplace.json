@@ -14,7 +14,7 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/onetinov/vibe-mentor.git",
-        "path": "plugins/architecture-mentor",
+        "path": "./plugins/architecture-mentor",
         "ref": "main"
       },
       "homepage": "https://github.com/onetinov/vibe-mentor"

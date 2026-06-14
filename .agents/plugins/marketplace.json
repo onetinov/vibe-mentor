@@ -7,8 +7,10 @@
     {
       "name": "architecture-mentor",
       "source": {
-        "source": "local",
-        "path": "./plugins/architecture-mentor"
+        "source": "git-subdir",
+        "url": "https://github.com/onetinov/vibe-mentor.git",
+        "path": "./plugins/architecture-mentor",
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
