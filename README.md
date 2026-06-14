@@ -102,12 +102,14 @@ or manual skill copying should be needed on current clients.
 
 ```bash
 codex plugin marketplace upgrade vibe-mentor
+codex plugin add architecture-mentor@vibe-mentor
 ```
 
 ### Claude Code
 
 ```bash
 claude plugin marketplace update vibe-mentor
+claude plugin update architecture-mentor
 ```
 
 If a client does not pick up a new plugin version immediately, restart or
@@ -206,6 +208,8 @@ HOME="$TMP_HOME" claude plugin install architecture-mentor@vibe-mentor --scope l
 ### Enable, disable, uninstall
 
 - Use `claude plugin install ...` to add the plugin
+- Use `claude plugin update architecture-mentor` to pull the latest installed
+  plugin version after marketplace updates
 - Use Claude Code's plugin management UI or current `claude plugin` commands to
   disable or remove it
 
@@ -262,6 +266,9 @@ modify your normal local plugin state.
 
 ```bash
 codex plugin marketplace list
+codex plugin marketplace upgrade vibe-mentor
+codex plugin add architecture-mentor@vibe-mentor
+codex plugin remove architecture-mentor@vibe-mentor
 codex plugin marketplace remove vibe-mentor
 ```
 
