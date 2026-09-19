@@ -153,6 +153,8 @@ Use for:
 
 Responsibilities:
 
+- plan first: turn direction into a plan a human approves, work only inside it,
+  stop when it is done
 - escalation of blockers to a named owner, in a channel they read
 - landing discipline: cap on unlanded PRs, stack depth, closing overtaken PRs
 - review discipline: no self-merge on green CI; bypass is a recorded human decision
