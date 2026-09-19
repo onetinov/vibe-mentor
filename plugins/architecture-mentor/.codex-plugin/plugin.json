@@ -1,6 +1,6 @@
 {
   "name": "architecture-mentor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pragmatic architecture review and production-readiness mentoring workflow for Codex.",
   "author": {
     "name": "Rob Cherry"
@@ -8,7 +8,12 @@
   "homepage": "https://github.com/onetinov/vibe-mentor",
   "repository": "https://github.com/onetinov/vibe-mentor.git",
   "license": "MIT",
-  "keywords": ["architecture", "mentoring", "review", "trade-offs"],
+  "keywords": [
+    "architecture",
+    "mentoring",
+    "review",
+    "trade-offs"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Architecture Mentor",
@@ -16,7 +21,10 @@
     "longDescription": "Preserve product intent while improving boundaries, git and repo discipline, deployment shape, and operational sanity.",
     "developerName": "Rob Cherry",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
     "websiteURL": "https://github.com/onetinov/vibe-mentor",
     "defaultPrompt": [
       "Review this system design with Architecture Mentor.",

@@ -1,6 +1,6 @@
 {
   "name": "delivery-mentor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Delivery and collaboration discipline for fast builders and their coding agents, for Codex.",
   "author": {
     "name": "Rob Cherry"
@@ -8,7 +8,13 @@
   "homepage": "https://github.com/onetinov/vibe-mentor",
   "repository": "https://github.com/onetinov/vibe-mentor.git",
   "license": "MIT",
-  "keywords": ["delivery", "collaboration", "pull requests", "code review", "mentoring"],
+  "keywords": [
+    "delivery",
+    "collaboration",
+    "pull requests",
+    "code review",
+    "mentoring"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Delivery Mentor",
@@ -16,7 +22,10 @@
     "longDescription": "Keep momentum while making sure work lands, blockers reach the person who can clear them, gates only exist when they can run, and every claim can be re-run.",
     "developerName": "Rob Cherry",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
     "websiteURL": "https://github.com/onetinov/vibe-mentor",
     "defaultPrompt": [
       "Use Delivery Mentor before I open this PR.",

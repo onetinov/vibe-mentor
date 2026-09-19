@@ -6,10 +6,11 @@ This directory contains:
 
 - `.claude-plugin/plugin.json` for Claude Code
 - `.codex-plugin/plugin.json` for OpenAI Codex
-- `skills/delivery-mentor/SKILL.md` as the packaged skill entrypoint
+- `skills/delivery-mentor/` — the complete skill: `SKILL.md`, `references/`, and
+  `agents/openai.yaml`
 
-The canonical skill instructions live higher in the repo under
-`skills/delivery-mentor/` and `content/delivery-mentor.md`.
+This directory is exactly what Claude Code and Codex install, so it is the
+canonical source.
 
 ## What It Helps With
 

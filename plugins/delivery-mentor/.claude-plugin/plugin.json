@@ -1,6 +1,6 @@
 {
   "name": "delivery-mentor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Delivery and collaboration discipline for fast builders and their coding agents, for Claude Code.",
   "author": {
     "name": "Rob Cherry"
