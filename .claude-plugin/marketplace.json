@@ -11,23 +11,13 @@
     {
       "name": "architecture-mentor",
       "description": "Pragmatic architecture review and trade-off analysis skill",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/onetinov/vibe-mentor.git",
-        "path": "./plugins/architecture-mentor",
-        "ref": "main"
-      },
+      "source": "./plugins/architecture-mentor",
       "homepage": "https://github.com/onetinov/vibe-mentor"
     },
     {
       "name": "delivery-mentor",
       "description": "Delivery and collaboration discipline for fast builders and their coding agents",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/onetinov/vibe-mentor.git",
-        "path": "./plugins/delivery-mentor",
-        "ref": "main"
-      },
+      "source": "./plugins/delivery-mentor",
       "homepage": "https://github.com/onetinov/vibe-mentor"
     }
   ]
