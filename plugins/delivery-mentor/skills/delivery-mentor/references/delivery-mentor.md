@@ -45,119 +45,59 @@ brief working as written. Fix the brief, not the builder.
   "why are there 20 open PRs"
 - someone is writing or reviewing a standing brief for an autonomous agent
 
-## The Rules
+## Why the Rules Are What They Are
 
-These are strict on purpose. An autonomous agent needs a bright line, not a
-judgement call it can reason its way around.
+The rules themselves are in `SKILL.md`, so they load every time the skill
+fires. This section explains them, for when an agent or a human needs to judge
+an edge case.
 
-### 1. Start every session by looking at the present
+### Plan first (rules 1–5)
 
-- `git fetch`, then compare against the main line. A snapshot from earlier in
-  the session, or from the agent's start-up context, is not current.
-- Read the repository's instructions: `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md`
-  and any maintainers guide, **whichever tool you are**. A Codex agent that
-  reads only `AGENTS.md` misses rules kept in `CLAUDE.md`, and the reverse. If
-  the repo has only one of them, say so and propose adding a pointer file.
-- List open pull requests and recent commits by other people. If main moved,
-  read what moved it before writing anything.
+A capable agent given a direction and told to keep going will produce a great
+deal of plausible work, in an order nobody chose, touching things nobody
+agreed to. Each piece can be good. The whole is still chaos, because nobody
+else could have predicted it, reviewed it in sequence, or stopped it early.
 
-### 2. A blocker someone else must clear is escalated, not logged
+A plan is cheap to write and cheap to reject. It is the only point where a
+human can redirect the work for the price of a sentence. After that, every
+redirect costs code. So the approval gate sits before the first change, not
+after the twentieth PR.
 
-A log file, a progress file or a risk register is not a communication channel.
-Nobody reads it but the agent.
+"Done means the plan is done" closes the loophole that keeps autonomous agents
+running: there is always more useful in-scope work. That is true, and it is not
+a reason to do it unasked.
 
-When a blocker needs someone else (billing, credentials, an approval, access,
-a product decision):
+### Landing (rules 6–10)
 
-- open an issue, a PR comment, or draft a message to the named person
-- say exactly what is needed: the setting, the secret name, the command
-- say what is blocked and what will continue meanwhile
-- then carry on only with work that does not depend on the blocker
+Work that has not landed is a liability. It conflicts with everyone else's
+work, it hides from reviewers, and it gets rebuilt by someone who didn't know
+it existed. Deep stacks multiply that: a change at the bottom forces a rebase
+of everything above it. A cap of three unlanded PRs forces landing to happen
+at the rate of building.
 
-A blocker that appears only in a file the owner has never opened has not been
-escalated. Treat it as unhandled.
+Self-merge on green CI feels safe because the checks passed. But checks only
+verify what someone thought to check. Review exists for the rest: scope, fit,
+and whether this should exist at all.
 
-### 3. Do not build on what cannot run
+### Escalation (rules 11–13)
 
-Before adding a gate, workflow, check or release step that depends on secrets,
-environments, approvals, branch protection or hosted infrastructure:
+An agent that notices a blocker and writes it down has done half the job. The
+other half is getting it to the one person who can clear it, in a place they
+will see. A long, accurate risk register with no issue, comment or message
+attached is the signature failure of autonomous agents. It looks like
+diligence and achieves nothing.
 
-- prove each dependency exists, and show the command that proves it
-- if one does not exist, escalate it (rule 2) and do **not** add the gate yet
+Gates built on missing infrastructure are worse than no gates. They fail
+constantly, teach everyone to ignore red, burn CI budget, and give a false
+impression of rigour.
 
-Never merge a scheduled job that cannot pass today. A cron that fails every
-fifteen minutes is noise that trains everyone to ignore red.
+### Evidence and authority (rules 14–17)
 
-### 4. Every automated trigger has a cost and an owner
-
-CI minutes are money, and someone else usually pays for them.
-
-- Before adding or widening a trigger, estimate runs per day × minutes per run.
-- Heavy jobs (CodeQL, SBOMs, attestations, full matrices) run on the main line,
-  nightly or on demand, not on every push to every PR.
-- If the repo's CI is paused, blocked or deliberately manual, run checks
-  locally and say so in the PR. Do not keep pushing into a pipeline you know
-  cannot run.
-
-### 5. Land what you open
-
-- **At most three open, unlanded PRs per builder.** At the fourth, stop
-  building and land, close or hand over.
-- **Stacks deeper than three are a warning.** Each layer multiplies the cost of
-  a change at the bottom.
-- When the main line moves under you, rebase within the same session, and say
-  what changed.
-- When later work overtakes one of your open PRs, close it or rebase it the
-  same day, with a comment saying where its content went. An abandoned PR
-  hides work. The next person rebuilds it without knowing it exists.
-
-### 6. One PR, one purpose
-
-A "fix CI" PR fixes CI. If a feature turns up while fixing something else, it
-goes on a new branch. Mixed PRs get stranded: the fix is urgent, the feature
-needs review, and the whole thing waits for the slower of the two.
-
-### 7. Green CI is not review
-
-- Never merge your own PR on the strength of green checks alone.
-- If there is no reviewer, ask for one by name and work on something else while
-  you wait.
-- An admin bypass of a review rule is a human's decision, made on purpose, and
-  recorded in the PR with the reason. An agent never makes it.
-- A PR merged minutes after it was opened has not been reviewed.
-
-### 8. Size PRs for a human
-
-Aim for a change a reviewer can read properly in thirty minutes: roughly 400
-lines of hand-written change, excluding generated files. Anything much larger
-needs either splitting or an agreed plan with the reviewer before it is opened.
-A 100,000-line PR is not a PR. It is a fork being merged back.
-
-### 9. Numbers carry the command that produced them
-
-Every figure in a PR body, such as test counts, timings or "zero findings",
-comes with the exact command, and with a CI run link if there is one. "3,600
-tests passed" with no command cannot be reproduced, so it is not evidence.
-
-Say what was not verified as plainly as what was.
-
-### 10. No shared file that every change touches
-
-An append-only log, changelog or progress file edited by every commit makes
-every pair of branches conflict. Put status in the PR, the issue, or a
-per-branch note that is deleted when the branch lands.
-
-### 11. Other people's changes are signals
-
-When someone else commits to the main line, especially rules, docs or config,
-read it. If your work disagrees with it, for example re-pinning a version they
-deliberately unpinned, say so in your PR. Do not quietly undo it.
-
-### 12. The agent's autonomy has edges
-
-Push, open a PR, merge, deploy and delete branches only on an explicit human
-instruction **in the current session**. A standing brief does not authorise
-these forever. When the instruction is ambiguous, prepare everything and ask.
+A number without its command cannot be checked. It is a claim dressed as a
+measurement. Shared append-only files turn every pair of branches into a
+conflict. Silently undoing another maintainer's deliberate change breaks trust
+faster than any bug. And standing briefs go stale. The authority to push,
+merge or deploy has to come from the human in the room now.
 
 ## Reviewing a Standing Agent Brief
 
@@ -166,26 +106,14 @@ replace them:
 
 | Brief says | Produces | Replace with |
 |---|---|---|
-| "Work continuously until the definition of done is met" | unbounded stacks | "Stop and summarise when you have three unlanded PRs" |
+| "Make reasonable decisions without asking the user" | work nobody chose, in an order nobody agreed | "Turn the direction into a plan, get it approved, then work only inside it" |
+| "Work continuously until the definition of done is met" | unbounded stacks | "Stop and report when the approved plan is done, or when you have three unlanded PRs" |
 | "Ask the user only when no useful work remains" | blockers never reach a human | "Escalate any blocker that needs someone else as soon as you find it, then continue" |
 | "Record the exact blocker and continue" | accurate logs nobody reads | "Record the blocker **and** open an issue or message naming the owner" |
 | "Definition of done: all gates green" | gates built on missing infrastructure | "Definition of done: landed, or waiting on a named person" |
 | no mention of other maintainers | silent reverts, ignored rules | "At session start, read changes by others since your last session" |
 
 Put the rules this skill enforces into the file the agent actually reads.
-
-## Session Close
-
-Before ending a session, the agent reports, in the chat and in the PR where it
-applies:
-
-- **landed:** what reached the main line, with commit or PR links
-- **open:** each open PR, what it is waiting on, and who it is waiting on
-- **escalated:** each blocker, with a link to where the owner was told
-- **not verified:** anything claimed but not run, and why
-- **next:** the single next move
-
-Nothing is left in a state that only the agent understands.
 
 ## Recognising the Pattern
 
