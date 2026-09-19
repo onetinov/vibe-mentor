@@ -18,6 +18,17 @@
         "ref": "main"
       },
       "homepage": "https://github.com/onetinov/vibe-mentor"
+    },
+    {
+      "name": "delivery-mentor",
+      "description": "Delivery and collaboration discipline for fast builders and their coding agents",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/onetinov/vibe-mentor.git",
+        "path": "./plugins/delivery-mentor",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/onetinov/vibe-mentor"
     }
   ]
 }

@@ -6,6 +6,8 @@ to both Claude Code and OpenAI Codex.
 ## What This Repo Provides
 
 - One canonical, model-neutral architecture mentor skill
+- A delivery mentor skill for landing work in a shared repo: escalation,
+  review, PR size and CI discipline for fast builders and their coding agents
 - A Claude Code marketplace wrapper
 - A Codex plugin and marketplace wrapper
 - Repo-scoped wrappers for local testing in both clients

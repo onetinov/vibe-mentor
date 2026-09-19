@@ -1,0 +1,12 @@
+{
+  "name": "delivery-mentor",
+  "version": "0.1.0",
+  "description": "Delivery and collaboration discipline for fast builders and their coding agents, for Claude Code.",
+  "author": {
+    "name": "Rob Cherry"
+  },
+  "homepage": "https://github.com/onetinov/vibe-mentor",
+  "repository": "https://github.com/onetinov/vibe-mentor.git",
+  "license": "MIT",
+  "skills": "./skills/"
+}

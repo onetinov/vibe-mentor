@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delivery Mentor"
+  short_description: "Land work like a professional team: escalate, review, keep PRs small"
+  default_prompt: "Use $delivery-mentor to check how this work should land: open PRs, blockers to escalate, and what counts as done."
