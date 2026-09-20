@@ -140,6 +140,35 @@ Responsibilities:
 - recovery paths
 - replay / restart safety
 
+### `delivery-mentor`
+
+Use for:
+
+- "Why is everything stuck?" / "Why are there twenty open PRs?"
+- an agent about to open, stack, merge or close pull requests
+- an agent about to add CI workflows, scheduled jobs or release gates
+- a blocker only someone else can clear
+- session start and close in a shared repository
+- reviewing a standing brief for an autonomous coding agent
+
+Responsibilities:
+
+- plan first: turn direction into a plan a human approves, work only inside it,
+  stop when it is done
+- escalation of blockers to a named owner, in a channel they read
+- landing discipline: cap on unlanded PRs, stack depth, closing overtaken PRs
+- review discipline: no self-merge on green CI; bypass is a recorded human decision
+- gates and schedules only when their dependencies provably exist
+- CI cost awareness
+- reproducible claims: every number carries its command
+
+Boundary from `architecture-mentor`:
+
+- `architecture-mentor` covers the shape of the system, including repo scope
+  and git hygiene as architecture concerns
+- `delivery-mentor` covers how work moves from a builder's branch onto the main
+  line alongside other people, and how an autonomous agent's brief shapes that
+
 ## Shared Content Areas
 
 These should probably be shared across multiple skills:

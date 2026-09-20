@@ -1,7 +1,7 @@
 {
-  "name": "architecture-mentor",
+  "name": "delivery-mentor",
   "version": "0.2.0",
-  "description": "Pragmatic architecture review and production-readiness mentoring workflow for Claude Code.",
+  "description": "Delivery and collaboration discipline for fast builders and their coding agents, for Claude Code.",
   "author": {
     "name": "Rob Cherry"
   },

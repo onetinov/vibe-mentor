@@ -5,18 +5,19 @@
   },
   "metadata": {
     "description": "Pragmatic mentoring skills for Claude Code",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "architecture-mentor",
       "description": "Pragmatic architecture review and trade-off analysis skill",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/onetinov/vibe-mentor.git",
-        "path": "./plugins/architecture-mentor",
-        "ref": "main"
-      },
+      "source": "./plugins/architecture-mentor",
+      "homepage": "https://github.com/onetinov/vibe-mentor"
+    },
+    {
+      "name": "delivery-mentor",
+      "description": "Delivery and collaboration discipline for fast builders and their coding agents",
+      "source": "./plugins/delivery-mentor",
       "homepage": "https://github.com/onetinov/vibe-mentor"
     }
   ]

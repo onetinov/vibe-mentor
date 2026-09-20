@@ -6,6 +6,8 @@ to both Claude Code and OpenAI Codex.
 ## What This Repo Provides
 
 - One canonical, model-neutral architecture mentor skill
+- A delivery mentor skill for landing work in a shared repo: escalation,
+  review, PR size and CI discipline for fast builders and their coding agents
 - A Claude Code marketplace wrapper
 - A Codex plugin and marketplace wrapper
 - Repo-scoped wrappers for local testing in both clients
@@ -84,6 +86,7 @@ It should optimize for:
 ```bash
 codex plugin marketplace add onetinov/vibe-mentor
 codex plugin add architecture-mentor@vibe-mentor
+codex plugin add delivery-mentor@vibe-mentor
 ```
 
 ### Claude Code
@@ -91,6 +94,7 @@ codex plugin add architecture-mentor@vibe-mentor
 ```bash
 claude plugin marketplace add onetinov/vibe-mentor
 claude plugin install architecture-mentor@vibe-mentor
+claude plugin install delivery-mentor@vibe-mentor
 ```
 
 These are the recommended install paths. No sparse checkout, skill installer,
@@ -126,43 +130,26 @@ For ongoing multi-session design work, start with:
 ## Repo Layout
 
 ```text
-content/
-  architecture-mentor.md
-  architecture-mentor-review.md
-skills/
-  architecture-mentor/
-    SKILL.md
-    agents/
-      openai.yaml
-.claude/
-  skills/
-    architecture-mentor/
-      SKILL.md
-.claude-plugin/
-  marketplace.json
-.agents/
-  plugins/
-    marketplace.json
-  skills/
-    architecture-mentor/
-      SKILL.md
 plugins/
-  architecture-mentor/
-    .claude-plugin/
-      plugin.json
-    .codex-plugin/
-      plugin.json
+  architecture-mentor/            # everything a client installs
+    .claude-plugin/plugin.json
+    .codex-plugin/plugin.json
     README.md
-    skills/
-      architecture-mentor/
-        SKILL.md
+    skills/architecture-mentor/
+      SKILL.md                    # loads when the skill fires
+      references/                 # detail the skill points to
+      agents/openai.yaml          # Codex display metadata
+  delivery-mentor/                # same shape
+.claude-plugin/marketplace.json   # Claude marketplace
+.agents/plugins/marketplace.json  # Codex marketplace
+.claude/skills/<name>  -> ../../plugins/<name>/skills/<name>   # repo-local
+.agents/skills/<name>  -> ../../plugins/<name>/skills/<name>   # repo-local
 scripts/
-  bump_version.py
-  install_git_hooks.sh
   validate_repo.py
   validate_versions.py
-.githooks/
-  pre-commit
+  smoke_test_marketplaces.sh
+  bump_version.py
+  install_git_hooks.sh
 ```
 
 ## Claude Code
@@ -259,8 +246,14 @@ Run the reusable cross-client smoke test script from the repo root:
 scripts/smoke_test_marketplaces.sh
 ```
 
-It uses temporary Claude and Codex homes under `/private/tmp` so it does not
-modify your normal local plugin state.
+It installs every plugin into temporary Claude and Codex homes under
+`/private/tmp`, then checks the installed copy, so it catches a skill that
+installs but points at files that were not installed with it. Pass a repo and
+ref to test a pushed branch:
+
+```bash
+scripts/smoke_test_marketplaces.sh onetinov/vibe-mentor my-branch
+```
 
 ### Enable, disable, uninstall
 

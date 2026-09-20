@@ -26,9 +26,9 @@ Read these first:
 
 If working on the current main skill, also read:
 
-- `content/architecture-mentor.md`
-- `content/architecture-mentor-review.md`
-- `skills/architecture-mentor/SKILL.md`
+- `plugins/architecture-mentor/skills/architecture-mentor/SKILL.md`
+- `plugins/architecture-mentor/skills/architecture-mentor/references/architecture-mentor.md`
+- `plugins/architecture-mentor/skills/architecture-mentor/references/architecture-mentor-review.md`
 
 ## Recommended Session Sequence
 
@@ -47,7 +47,7 @@ Key questions:
 
 Likely outputs:
 
-- improved `skills/architecture-mentor/SKILL.md`
+- improved `plugins/architecture-mentor/skills/architecture-mentor/SKILL.md`
 - refined shared architecture guidance
 
 ### Session 2: Project Pattern Taxonomy

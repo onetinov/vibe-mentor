@@ -6,12 +6,16 @@
   "plugins": [
     {
       "name": "architecture-mentor",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/onetinov/vibe-mentor.git",
-        "path": "./plugins/architecture-mentor",
-        "ref": "main"
+      "source": "./plugins/architecture-mentor",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
       },
+      "category": "Productivity"
+    },
+    {
+      "name": "delivery-mentor",
+      "source": "./plugins/delivery-mentor",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"

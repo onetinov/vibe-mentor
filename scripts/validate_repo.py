@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -17,18 +18,14 @@ def load_json(path: Path):
     return json.loads(path.read_text())
 
 
-def iter_skill_files():
-    for root in (
-        ROOT / "skills",
-        ROOT / ".agents" / "skills",
-        ROOT / ".claude" / "skills",
-        ROOT / "plugins",
-    ):
-        if not root.exists():
-            continue
+WRAPPER_ROOTS = (ROOT / ".agents" / "skills", ROOT / ".claude" / "skills")
+LINK_PATTERN = re.compile(r"\]\(([^)#\s]+)\)")
 
-        for path in sorted(root.rglob("SKILL.md")):
-            yield path
+
+def iter_skill_files():
+    plugins_root = ROOT / "plugins"
+    if plugins_root.exists():
+        yield from sorted(plugins_root.rglob("SKILL.md"))
 
 
 def iter_plugin_dirs():
@@ -60,6 +57,45 @@ def validate_skill_file(path: Path) -> list[str]:
     if "description:" not in frontmatter:
         errors.append("frontmatter missing description")
 
+    # An unquoted ": " inside a plain YAML scalar is a parse error in strict
+    # loaders, which silently drops the skill.
+    for line in frontmatter.splitlines():
+        key, sep, value = line.partition(": ")
+        value = value.strip()
+        if sep and value and value[0] not in "\"'|>" and ": " in value:
+            errors.append(f"frontmatter `{key}` has an unquoted ': ' (quote the value)")
+
+    # Installed plugins are copied without the rest of the repo, so every
+    # relative link in a skill must resolve inside its own plugin directory.
+    plugin_dir = next((p for p in path.parents if p.parent == ROOT / "plugins"), None)
+    for target in LINK_PATTERN.findall(parts[2]):
+        if "://" in target:
+            continue
+        resolved = (path.parent / target).resolve()
+        if not resolved.exists():
+            errors.append(f"link `{target}` does not resolve")
+        elif plugin_dir and plugin_dir.resolve() not in resolved.parents:
+            errors.append(f"link `{target}` leaves the plugin package; it will not exist after install")
+
+    return errors
+
+
+def validate_wrappers() -> list[str]:
+    """Repo-local skill wrappers must be symlinks to the packaged skill."""
+    errors = []
+    for root in WRAPPER_ROOTS:
+        if not root.exists():
+            continue
+        for entry in sorted(root.iterdir()):
+            rel = entry.relative_to(ROOT)
+            expected = (ROOT / "plugins" / entry.name / "skills" / entry.name).resolve()
+            if not entry.is_symlink():
+                errors.append(f"{rel}: must be a symlink to plugins/{entry.name}/skills/{entry.name}")
+            elif entry.resolve() != expected:
+                errors.append(f"{rel}: points at {entry.resolve()}, expected {expected}")
+    for stale in ("skills", "content"):
+        if (ROOT / stale).exists():
+            errors.append(f"{stale}/: skill content belongs inside plugins/<name>/skills/<name>/")
     return errors
 
 
@@ -101,29 +137,15 @@ def validate_marketplaces() -> list[str]:
         if not codex_entry:
             errors.append(f"Codex marketplace missing plugin entry for {name}")
         else:
-            source = codex_entry.get("source", {})
-            if source.get("source") != "git-subdir":
-                errors.append(f"Codex marketplace source for {name} is not git-subdir")
-            if source.get("path") != f"./plugins/{name}":
-                errors.append(f"Codex marketplace path for {name} is not ./plugins/{name}")
-            if source.get("url") != "https://github.com/onetinov/vibe-mentor.git":
-                errors.append(f"Codex marketplace url for {name} is not the public repo")
-            if source.get("ref") != "main":
-                errors.append(f"Codex marketplace ref for {name} is not main")
+            if codex_entry.get("source") != f"./plugins/{name}":
+                errors.append(f"Codex marketplace source for {name} is not ./plugins/{name}")
 
         claude_entry = claude_plugins.get(name)
         if not claude_entry:
             errors.append(f"Claude marketplace missing plugin entry for {name}")
         else:
-            source = claude_entry.get("source", {})
-            if source.get("source") != "git-subdir":
-                errors.append(f"Claude marketplace source for {name} is not git-subdir")
-            if source.get("path") != f"./plugins/{name}":
-                errors.append(f"Claude marketplace path for {name} is not ./plugins/{name}")
-            if source.get("url") != "https://github.com/onetinov/vibe-mentor.git":
-                errors.append(f"Claude marketplace url for {name} is not the public repo")
-            if source.get("ref") != "main":
-                errors.append(f"Claude marketplace ref for {name} is not main")
+            if claude_entry.get("source") != f"./plugins/{name}":
+                errors.append(f"Claude marketplace source for {name} is not ./plugins/{name}")
 
     return errors
 
@@ -148,6 +170,7 @@ def main() -> int:
                 errors.append(f"{rel}: {error}")
 
     errors.extend(validate_marketplaces())
+    errors.extend(validate_wrappers())
 
     if errors:
         print("Repo validation failed:")
